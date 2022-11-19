@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class ActionLog {
 
     public void logAction(Action action) {
-
+        //todo:
     }
 }

@@ -16,9 +16,9 @@ import org.springframework.data.domain.Page;
 @AllArgsConstructor
 public class UserDto {
     @Delegate private UserBaseDataDto userBaseData;
-    private String photoUrl;
     private String city;
     private String country;
-    private BigDecimal rating;
+    private String photoUrl;
+    private BigDecimal rating; //5.0
     private Page<ReviewDto> reviews;
 }
