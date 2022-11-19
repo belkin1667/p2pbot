@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
 public class UserService {
 
     UserDto getUser(Long id) {
+
+
       return new UserDto();
     }
 }

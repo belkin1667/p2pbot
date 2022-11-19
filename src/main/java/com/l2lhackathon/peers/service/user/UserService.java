@@ -1,6 +1,6 @@
 package com.l2lhackathon.peers.service.user;
 
-import com.l2lhackathon.peers.domain.User;
+import com.l2lhackathon.peers.controller.user.entity.User;
 import com.l2lhackathon.peers.exception.PeersEntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

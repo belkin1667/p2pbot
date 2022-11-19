@@ -1,4 +1,4 @@
-package com.l2lhackathon.peers.domain;
+package com.l2lhackathon.peers.controller.user.entity;
 
 import javax.persistence.Embeddable;
 

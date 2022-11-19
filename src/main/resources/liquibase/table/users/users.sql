@@ -17,34 +17,20 @@ CREATE SEQUENCE users_seq
 CREATE INDEX idx_telegram_login ON users (telegram_login);
 
 --changeset targimec:change_set_name
+ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS   first_name  TEXT,
+    ADD COLUMN IF NOT EXISTS   last_name   TEXT,
+    ADD COLUMN IF NOT EXISTS   city        TEXT,
+    ADD COLUMN IF NOT EXISTS   country     TEXT,
+    ADD COLUMN IF NOT EXISTS   rating      FLOAT,
+    ADD COLUMN IF NOT EXISTS   photo_url   TEXT;
 
-CREATE TABLE IF NOT EXISTS userbase
+CREATE TABLE IF NOT EXISTS review
 (
-    id              BIGINT      PRIMARY KEY
-    first_name       STRING      NOT NULL
-    last_name        STRING      NOT NULL
-    telegram_login   STRING      NOT NULL
-)
-
-CREATE TABLE IF NOT EXISTS reviews
-(
-    id          BIGINT PRIMARY KEY
-    user_id      BIGINT NOT NULL
-    text        STRING NOT NULL
-    author_id    BIGINT NOT NULL
-    FOREIGN KEY (userid) REFERENCES userbase(id) ON DELETE CASCADE
-    FOREIGN KEY (authorid) REFERENCES userbase(id) ON DELETE CASCADE
-)
-
-CREATE TABLE IF NOT EXISTS userglobal
-(
-    id          BIGINT  PRIMARY KEY
-    base_id      BIGINT  NOT NULL
-    city        STRING  NOT NULL
-    country     STRING  NOT NULL
-    rating      FLOAT  NOT NULL
-    photo_url    STRING  NOT NULL
-    reviews     BIGINT  NOT NULL
-    FOREIGN KEY (baseid) REFERENCES userbase(id) ON DELETE CASCADE
-    FOREIGN KEY (reviews) REFERENCES reviews(id) ON DELETE CASCADE
+    id              BIGINT  PRIMARY KEY,
+    user_id         BIGINT  NOT NULL,
+    text            TEXT    NOT NULL,
+    author_id       BIGINT  NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 )

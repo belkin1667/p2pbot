@@ -1,7 +1,7 @@
 package com.l2lhackathon.peers.service.user;
 
 import com.l2lhackathon.peers.controller.user.dto.UserDto;
-import com.l2lhackathon.peers.domain.User;
+import com.l2lhackathon.peers.controller.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
