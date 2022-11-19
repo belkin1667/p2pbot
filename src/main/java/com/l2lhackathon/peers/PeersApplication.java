@@ -1,13 +1,14 @@
-package com.l2lhackathon.p2pbot;
+package com.l2lhackathon.peers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class P2pbotApplication {
+
+public class PeersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(P2pbotApplication.class, args);
+		SpringApplication.run(PeersApplication.class, args);
 	}
 
 }

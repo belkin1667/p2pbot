@@ -1,0 +1,7 @@
+
+# Data Source
+spring.datasource.url=jdbc:postgresql://localhost:54322/postgres
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+
+# NB! You can set up local postgres by running: docker-compose -f utils/postgres.yml up -d
