@@ -15,6 +15,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new PeersEntityNotFoundException(User.class, id));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new PeersEntityNotFoundException(User.class, id));
+    }
+
+    @Transactional(readOnly = true)
+    public User findByTelegramId(Long telegramId) {
+        return userRepository.findByTelegramId(telegramId)
+                .orElseThrow(() -> new PeersEntityNotFoundException(User.class));
     }
 }

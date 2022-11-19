@@ -1,5 +1,6 @@
 package com.l2lhackathon.peers.bot;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,28 +21,29 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PeersBot {
+public class PeersBotUpdateReceiver {
 
     private final BotProperties properties;
     private final ActionLog actionLog;
     private final List<UpdateHandler> handlers;
 
-    private TelegramBot bot;
+    private final TelegramBot bot;
     private GetUpdates getUpdates;
 
     @PostConstruct
     void setUp() {
-        bot = new TelegramBot(properties.getToken());
         getUpdates = new GetUpdates()
                             .limit(properties.getLimit())
                             .offset(properties.getOffset())
                             .timeout(properties.getTimeout());
     }
 
-    @Scheduled(fixedDelay = 0) // processed previous, started new one
+    @Scheduled(fixedDelay = 20) // processed previous, started new one
     public void getAndProcessUpdates() {
+        System.out.println("Getting new updates batch..");
         List<Update> updatesBatch = getNextUpdatesBatch();
         processUpdateBatch(updatesBatch);
+        System.out.println("Updates batch processed!");
     }
 
     private List<Update> getNextUpdatesBatch() {
@@ -50,6 +52,7 @@ public class PeersBot {
     }
 
     private void processUpdateBatch(List<Update> updates) {
+        getUpdates.offset(updates.stream().map(Update::updateId).max(Comparator.naturalOrder()).orElse(0) + 1);
         updates.forEach(this::processUpdate);
     }
 

@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 public class PeersApplication {
 
 	public static void main(String[] args) {
+		System.setSecurityManager(null);
 		SpringApplication.run(PeersApplication.class, args);
 	}
 

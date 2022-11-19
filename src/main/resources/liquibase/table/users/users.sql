@@ -33,4 +33,11 @@ CREATE TABLE IF NOT EXISTS review
     author_id       BIGINT  NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
-)
+);
+
+--changeset belkinmike:add_telegram_id
+ALTER TABLE users
+    ADD COLUMN telegram_id BIGINT,
+    ADD COLUMN stage TEXT;
+
+CREATE INDEX idx_telegram_id ON users (telegram_id);
