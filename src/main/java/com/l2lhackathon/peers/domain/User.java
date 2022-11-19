@@ -1,8 +1,10 @@
 package com.l2lhackathon.peers.domain;
 
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
@@ -21,5 +23,12 @@ public class User {
     private Instant updatedAt;
 
     private String telegramLogin;
+
+    @Embedded
+    private Location location;
+
+    private String photoUrl;
+
+    private BigDecimal rating;
 
 }

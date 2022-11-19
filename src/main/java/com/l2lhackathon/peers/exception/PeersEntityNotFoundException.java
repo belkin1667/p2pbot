@@ -1,7 +1,5 @@
 package com.l2lhackathon.peers.exception;
 
-import org.springframework.http.HttpStatus;
-
 public class PeersEntityNotFoundException extends PeersCoreException {
 
     private static final int NOT_FOUND = 404;

@@ -1,3 +1,4 @@
+spring.mvc.pathmatch.matching-strategy=ant_path_matcher
 
 # Data Source
 spring.datasource.url=jdbc:postgresql://localhost:54322/postgres
