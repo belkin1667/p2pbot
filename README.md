@@ -16,4 +16,4 @@
 2) Execute tests
 
 ### Production Run
-- Use `-Dspring.active.profiles=local` jvm option
+- Use `-Dspring.active.profiles=production` jvm option
