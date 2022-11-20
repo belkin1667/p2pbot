@@ -23,7 +23,8 @@ dependencies {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
     implementation 'org.springframework.boot:spring-boot-starter-jetty'
-    //implementation 'org.springframework.security:spring-security-core:5.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     implementation 'com.vladmihalcea:hibernate-types-52:2.20.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
