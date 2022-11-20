@@ -2,6 +2,7 @@ package com.l2lhackathon.peers.bot.handlers.command;
 
 import java.util.Optional;
 
+import com.l2lhackathon.peers.bot.controls.BotCommand;
 import com.l2lhackathon.peers.bot.handlers.UpdateHandler;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;

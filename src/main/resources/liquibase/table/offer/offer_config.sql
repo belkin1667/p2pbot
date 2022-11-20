@@ -16,3 +16,7 @@ CREATE SEQUENCE IF NOT EXISTS offer_config_seq
     OWNED BY offer_config.id;
 
 CREATE INDEX IF NOT EXISTS idx_offer_config_name ON offer_config (name);
+
+--changeset belkinmike:add_indices
+CREATE INDEX IF NOT EXISTS idx_offer_config_status_and_name ON offer_config (status, name);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_offer_config_name_unique ON offer_config (name) WHERE status = 'ACTIVE';

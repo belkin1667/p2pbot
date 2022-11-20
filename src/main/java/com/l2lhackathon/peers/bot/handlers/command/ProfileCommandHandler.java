@@ -3,7 +3,8 @@ package com.l2lhackathon.peers.bot.handlers.command;
 import java.util.List;
 
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
-import com.l2lhackathon.peers.bot.handlers.button.BotButton;
+import com.l2lhackathon.peers.bot.controls.BotButton;
+import com.l2lhackathon.peers.bot.controls.BotCommand;
 import com.l2lhackathon.peers.domain.user.DialogStage;
 import com.l2lhackathon.peers.domain.user.User;
 import com.l2lhackathon.peers.service.user.UserRepository;

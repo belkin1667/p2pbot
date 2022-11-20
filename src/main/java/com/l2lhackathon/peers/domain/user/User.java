@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.l2lhackathon.peers.domain.offer.Offer;
 import com.l2lhackathon.peers.domain.review.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +57,9 @@ public class User {
 
     private Integer previousMessageId;
 
+    private Long currentOfferId;
+    private Integer nextOfferConfigPropertyNumber;
+
     @Embedded
     private Location location;
 
@@ -68,6 +73,9 @@ public class User {
     @NotNull
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> myReviews;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offer> offers;
 
     public void setCity(String city) {
         if (location == null) {
@@ -96,9 +104,14 @@ public class User {
         dialogStage = DialogStage.UNKNOWN;
         createdAt = Instant.now();
         updatedAt = Instant.now();
+        rating = new BigDecimal(new Random().nextInt(1, 4) + "." + new Random().nextInt(0, 9));
     }
 
     public String toBotMessage() {
         return toString();
+    }
+
+    public void incrementNextOfferConfigPropertyNumber() {
+        nextOfferConfigPropertyNumber++;
     }
 }

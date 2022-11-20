@@ -2,7 +2,9 @@ package com.l2lhackathon.peers.bot.handlers.button;
 
 import java.util.Optional;
 
+import com.l2lhackathon.peers.bot.controls.BotButton;
 import com.l2lhackathon.peers.bot.handlers.UpdateHandler;
+import com.l2lhackathon.peers.domain.user.User;
 import com.pengrad.telegrambot.model.CallbackQuery;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
@@ -10,7 +12,7 @@ import com.pengrad.telegrambot.model.Update;
 
 public abstract class BaseButtonHandler extends UpdateHandler {
 
-    abstract BotButton getButton();
+    protected abstract BotButton getButton();
 
     @Override
     public void handle(Update update) {

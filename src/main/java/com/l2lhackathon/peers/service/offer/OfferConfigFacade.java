@@ -1,5 +1,7 @@
 package com.l2lhackathon.peers.service.offer;
 
+import java.util.List;
+
 import com.l2lhackathon.peers.controller.offer.dto.OfferConfigDto;
 import com.l2lhackathon.peers.controller.offer.dto.OfferConfigStatusDto;
 import com.l2lhackathon.peers.domain.offer.OfferConfig;
@@ -23,10 +25,20 @@ public class OfferConfigFacade {
     }
 
     public void updateActivityStatus(Long offerConfigId, OfferConfigStatusDto status) {
-        OfferConfig config = offerConfigRepository.findById(offerConfigId)
-                .orElseThrow(() -> new PeersEntityNotFoundException(OfferConfig.class, offerConfigId));
+        var config = findById(offerConfigId);
 
         config.setStatus(Enum.valueOf(OfferConfigStatus.class, status.name()));
         offerConfigRepository.save(config);
+    }
+
+    @Transactional(readOnly = true)
+    public List<OfferConfig> getAllActiveOfferNames() {
+        return offerConfigRepository.getAllOffers(OfferConfigStatus.ACTIVE.name());
+    }
+
+    @Transactional(readOnly = true)
+    public OfferConfig findById(Long id) {
+        return offerConfigRepository.findById(id)
+                .orElseThrow(() -> new PeersEntityNotFoundException(OfferConfig.class, id));
     }
 }

@@ -12,10 +12,14 @@ public enum DialogStage {
     EDIT_CITY(true),
 
     SEARCHER_CHOSEN(false),
-    OFFERED_CHOSEN(false),
+    OFFERER_CHOSEN(false),
     PROFILE_CREATED(false),
 
-    UNKNOWN(false);
+    UNKNOWN(false),
+
+    STRING_SELECTOR_AWAITING(false),
+    INTEGER_AWAITING(false),
+    OFFER_CONFIG_CHOSEN(false);
 
     private final Boolean deletePrevious;
 }

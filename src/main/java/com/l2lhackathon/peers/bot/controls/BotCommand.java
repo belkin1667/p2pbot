@@ -1,4 +1,4 @@
-package com.l2lhackathon.peers.bot.handlers.command;
+package com.l2lhackathon.peers.bot.controls;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

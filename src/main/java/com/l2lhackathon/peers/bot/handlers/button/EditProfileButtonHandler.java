@@ -3,6 +3,7 @@ package com.l2lhackathon.peers.bot.handlers.button;
 import java.util.List;
 
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
+import com.l2lhackathon.peers.bot.controls.BotButton;
 import com.l2lhackathon.peers.domain.user.DialogStage;
 import com.l2lhackathon.peers.domain.user.User;
 import com.l2lhackathon.peers.service.user.UserRepository;
@@ -18,7 +19,6 @@ public class EditProfileButtonHandler extends BaseButtonHandler {
 
     private static final String MESSAGE = "Ок, выбери что хочешь сменить";
 
-    @Getter
     private final BotButton button = BotButton.EDIT_PROFILE;
     private final DialogStage dialogStageAfter = DialogStage.UNKNOWN;
 

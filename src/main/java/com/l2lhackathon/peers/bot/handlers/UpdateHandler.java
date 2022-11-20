@@ -1,6 +1,7 @@
 package com.l2lhackathon.peers.bot.handlers;
 
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
+import com.l2lhackathon.peers.bot.exception.PeersHandlerNotFoundException;
 import com.l2lhackathon.peers.domain.user.DialogStage;
 import com.l2lhackathon.peers.domain.user.User;
 import com.l2lhackathon.peers.service.user.UserRepository;
@@ -37,14 +38,19 @@ public abstract class UpdateHandler {
         postProcessFinally(update);
     }
 
-    public abstract void handleAuthorized(Update update, User user);
+    public abstract void handleAuthorized(Update update, User user) throws PeersHandlerNotFoundException;
 
     public void postProcessAuthorized(Update update, User user) {
-        user.setDialogStage(getDialogStageAfter());
+        setupDialogStage(update, user);
+
         if (getSendResponse() != null) {
             persistLastMessage(getSendResponse().message(), user);
         }
         getUserRepository().save(user);
+    }
+
+    public void setupDialogStage(Update update, User user) {
+        user.setDialogStage(getDialogStageAfter());
     }
 
     public void handleUnauthorized(Update update) {

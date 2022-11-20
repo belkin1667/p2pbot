@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS users
     rating              FLOAT,
     photo_url           TEXT,
     dialog_stage        TEXT          NOT NULL DEFAULT 'UNKNOWN',
-    previous_message_id BIGINT
+    previous_message_id BIGINT,
+    current_offer_id    BIGINT,
+    next_offer_config_property_number BIGINT
 );
 
 CREATE SEQUENCE IF NOT EXISTS users_seq

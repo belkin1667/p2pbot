@@ -5,6 +5,8 @@ import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
@@ -25,4 +27,16 @@ public class OfferElement {
     private String value;
     private Instant createdAt;
     private Instant updatedAt;
+    @ManyToOne
+    private Offer offer;
+    @ManyToOne
+    private OfferProperty property;
+
+    public void init(String value, Offer offer, OfferProperty property) {
+        this.value = value;
+        createdAt = Instant.now();
+        updatedAt = Instant.now();
+        this.offer = offer;
+        this.property = property;
+    }
 }

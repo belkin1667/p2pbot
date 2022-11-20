@@ -38,6 +38,9 @@ public class OfferConfig {
     @Enumerated(value = EnumType.STRING)
     private OfferConfigStatus status;
 
+    @OneToMany(mappedBy = "config", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offer> offers;
+
     public void init(OfferConfigDto config) {
         name = config.getOfferName();
         status = OfferConfigStatus.ACTIVE;

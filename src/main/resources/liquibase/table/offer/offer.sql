@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS offer
     created_at TIMESTAMPTZ NOT NULL DEFAULT current_timestamp,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT current_timestamp,
     config_id  BIGINT      NOT NULL,
-    FOREIGN KEY (config_id) REFERENCES offer_config (id) ON DELETE CASCADE
+    user_id    BIGINT      NOT NULL,
+    FOREIGN KEY (config_id) REFERENCES offer_config(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id)   REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE IF NOT EXISTS offer_seq

@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.l2lhackathon.peers.bot.configuration.BotWebViewProperties;
-import com.l2lhackathon.peers.bot.handlers.button.BotButton;
+import com.l2lhackathon.peers.bot.controls.BotButton;
+import com.l2lhackathon.peers.bot.controls.Selector;
+import com.l2lhackathon.peers.bot.controls.SelectorOption;
+import com.l2lhackathon.peers.bot.controls.SelectorType;
 import com.l2lhackathon.peers.metrics.ActionLog;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.WebAppInfo;
@@ -86,8 +89,24 @@ public class PeersBotResponseSender {
                 .callbackData(button.getCallback());
     }
 
+    public SendResponse sendSelector(Long chatId, String text, Selector selector) {
+        var array = selector.getOptions().stream()
+                .map(option -> toInlineKeyboardButton(option, selector.getType()))
+                .map(btn -> new InlineKeyboardButton[]{ btn })
+                .toArray(InlineKeyboardButton[][]::new);
+
+        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(array);
+        return bot.execute(new SendMessage(chatId, text).parseMode(ParseMode.Markdown).replyMarkup(inlineKeyboard));
+    }
+
+    private InlineKeyboardButton toInlineKeyboardButton(SelectorOption option, SelectorType type) {
+        return new InlineKeyboardButton(option.getReadableName()).callbackData(type.name() + ":" +option.getCallbackData());
+    }
+
     public BaseResponse deleteMessage(Long chatId, int messageId) {
         DeleteMessage deleteMessage = new DeleteMessage(chatId, messageId);
         return bot.execute(deleteMessage);
     }
+
+
 }

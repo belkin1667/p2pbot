@@ -1,4 +1,4 @@
-package com.l2lhackathon.peers.bot.handlers.button;
+package com.l2lhackathon.peers.bot.controls;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -24,7 +24,10 @@ public enum BotButton {
     CLOSE_EDIT_PROFILE_DIALOG("Отмена", "close_edit_profile_dialog_btn", false),
     OPEN_PROFILE_WEB_VIEW("Открыть профиль", "open_profile_web_view", true),
 
-    CANCEL_UNAUTHORIZED("Нет, вернусь позже", "cancel_unauthorized_btn", false);
+    CANCEL_UNAUTHORIZED("Нет, вернусь позже", "cancel_unauthorized_btn", false),
+
+    SHOW_MY_OFFERS("Показать мои предложения", "show_my_offers_btn",false),
+    SELECTOR(null, null, false);
 
 
     private final String text;
@@ -32,6 +35,12 @@ public enum BotButton {
     private final Boolean webViewEnabled;
 
     public static Optional<BotButton> findByCallbackData(String callback) {
-        return Arrays.stream(values()).filter(btn -> btn.getCallback().equals(callback)).findAny();
+        if (SelectorType.from(callback).isPresent()) {
+            return Optional.of(SELECTOR);
+        }
+        return Arrays.stream(values())
+                .filter(btn -> btn.getCallback() != null)
+                .filter(btn -> btn.getCallback().equals(callback))
+                .findAny();
     }
 }
