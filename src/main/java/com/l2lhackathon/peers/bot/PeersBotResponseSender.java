@@ -100,7 +100,7 @@ public class PeersBotResponseSender {
     }
 
     private InlineKeyboardButton toInlineKeyboardButton(SelectorOption option, SelectorType type) {
-        return new InlineKeyboardButton(option.getReadableName()).callbackData(type.name() + ":" +option.getCallbackData());
+        return new InlineKeyboardButton(option.getReadableName()).callbackData(type.name() + ":" + option.getCallbackData());
     }
 
     public BaseResponse deleteMessage(Long chatId, int messageId) {

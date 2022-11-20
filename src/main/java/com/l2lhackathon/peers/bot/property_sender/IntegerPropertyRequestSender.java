@@ -1,5 +1,7 @@
 package com.l2lhackathon.peers.bot.property_sender;
 
+import java.util.Optional;
+
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
 import com.l2lhackathon.peers.domain.offer.OfferProperty;
 import com.l2lhackathon.peers.domain.offer.constraints.ConstraintType;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class IntegerPropertyRequestSender implements PropertyRequestSender {
 
-    private final ConstraintType type = ConstraintType.SELECTOR_STRING;
+    private final ConstraintType type = ConstraintType.GREATER_OR_LESS_INTEGER;
     private final PeersBotResponseSender bot;
     private final UserRepository userRepository;
 
@@ -35,10 +37,10 @@ public class IntegerPropertyRequestSender implements PropertyRequestSender {
     }
 
     public Message message(Update update) {
-        return update.callbackQuery().message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 
     public com.pengrad.telegrambot.model.User user(Update update) {
-        return update.callbackQuery().from();
+        return message(update).from();
     }
 }

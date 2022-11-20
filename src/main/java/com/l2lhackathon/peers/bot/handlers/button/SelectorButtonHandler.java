@@ -43,5 +43,8 @@ public class SelectorButtonHandler extends BaseButtonHandler {
                 .ifPresentOrElse(h -> h.handle(update, user), () -> { throw new PeersHandlerNotFoundException(update); });
     }
 
+    @Override
+    public void setupDialogStage(Update update, User user) {
 
+    }
 }

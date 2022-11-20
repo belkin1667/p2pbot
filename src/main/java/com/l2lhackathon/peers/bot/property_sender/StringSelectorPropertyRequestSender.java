@@ -42,7 +42,8 @@ public class StringSelectorPropertyRequestSender implements PropertyRequestSende
         );
 
         user.setDialogStage(DialogStage.STRING_SELECTOR_AWAITING);
-        userRepository.save(user);
+        user = userRepository.save(user);
+        System.out.println();
     }
 
     public Chat chat(Update update) {

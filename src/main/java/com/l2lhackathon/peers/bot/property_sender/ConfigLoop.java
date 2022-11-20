@@ -22,8 +22,9 @@ public class ConfigLoop {
     private final UserRepository userRepository;
 
     public void doLoop(Offer offer, Update update, User user) {
-        if (offer.getConfig().getProperties().size() >= user.getNextOfferConfigPropertyNumber()) {
+        if (offer.getConfig().getProperties().size() <= user.getNextOfferConfigPropertyNumber()) {
             finalizationSender.send(update, user, offer);
+            return;
         }
 
         var currentProperty = offer.getConfig().getProperties()

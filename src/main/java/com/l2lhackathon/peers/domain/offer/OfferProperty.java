@@ -20,12 +20,14 @@ import com.l2lhackathon.peers.domain.offer.constraints.ConstraintType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = { "constraint", "config", "elements" })
 public class OfferProperty {
     @Id
     @NotNull
@@ -47,7 +49,7 @@ public class OfferProperty {
     private OfferConfig config;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<OfferElement> elements;
+    private List<OfferElement> elements;
 
     public void init(OfferPropertyDto propertyDto, OfferConfig config) {
         this.config = config;

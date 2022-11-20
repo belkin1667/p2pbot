@@ -41,6 +41,12 @@ public class FreeTextHandler extends BaseCommandHandler {
     private final OfferRepository offerRepository;
     private final ConfigLoop configLoop;
 
+
+    @Override
+    public void setupDialogStage(Update update, User user) {
+
+    }
+
     @Override
     public boolean canHandle(Update update) {
         return false;
@@ -61,15 +67,38 @@ public class FreeTextHandler extends BaseCommandHandler {
     public void handleAuthorized(Update update, User user) {
         var text = update.message().text();
         switch (user.getDialogStage()) {
-            case EDIT_LAST_NAME -> user.setLastName(text);
-            case EDIT_FIRST_NAME -> user.setFirstName(text);
-            case EDIT_COUNTRY -> user.setCountry(text);
-            case EDIT_CITY -> user.setCity(text);
-            case INTEGER_AWAITING -> handleIntegerAwaiting(update, user, text);
-            default -> {
+            case EDIT_LAST_NAME -> {
+                user.setLastName(text);
+                finalizeEditParam(update, user);
             }
+            case EDIT_FIRST_NAME -> {
+                user.setFirstName(text);
+                finalizeEditParam(update, user);
+            }
+            case EDIT_COUNTRY -> {
+                user.setCountry(text);
+                finalizeEditParam(update, user);
+            }
+            case EDIT_CITY -> {
+                user.setCity(text);
+                finalizeEditParam(update, user);
+            }
+            case INTEGER_AWAITING -> {
+                handleIntegerAwaiting(update, user, text);
+                finalizeAwaiting(update, user);
+            }
+            default -> { }
         }
+    }
 
+    private void finalizeAwaiting(Update update, User user) {
+        if (user.getDialogStage().getDeletePrevious() && user.getPreviousMessageId() != null) {
+            bot.deleteMessage(chat(update).id(), user.getPreviousMessageId());
+            user.setPreviousMessageId(null);
+        }
+    }
+
+    private void finalizeEditParam(Update update, User user) {
         if (user.getDialogStage().getDeletePrevious() && user.getPreviousMessageId() != null) {
             bot.deleteMessage(chat(update).id(), user.getPreviousMessageId());
             user.setPreviousMessageId(null);
@@ -79,6 +108,7 @@ public class FreeTextHandler extends BaseCommandHandler {
         userRepository.save(user);
 
         bot.sendButtons(chat(update).id(), MESSAGE, List.of(EDIT_PROFILE));
+        super.setupDialogStage(update, user);
     }
 
     private void handleIntegerAwaiting(Update update, User user, String text) {
@@ -96,14 +126,18 @@ public class FreeTextHandler extends BaseCommandHandler {
         if (property.getType() != OfferPropertyType.INTEGER) {
             throw new IllegalStateException();
         }
-        IntegerGreaterOrLessConstraint constraint = (IntegerGreaterOrLessConstraint)property.getConstraint();
+        IntegerGreaterOrLessConstraint constraint = (IntegerGreaterOrLessConstraint) property.getConstraint();
         constraint.getValues().stream()
                 .filter(v -> !v.getKey().getComparator().apply(value, v.getValue()))
-                .findAny().ifPresentOrElse(v -> bot.sendMessage(
-                        chat(update).id(),
-                        "Число не прошло валидацию %s %d".formatted(v.getKey().getReadableName(), v.getValue())
-                ),
-                () -> save(offer, property, update, user, value));
+                .findAny().ifPresentOrElse(v -> {
+                            bot.sendMessage(
+                                    chat(update).id(),
+                                    "Число должно быть %s %d".formatted(v.getKey().getReadableName(), v.getValue())
+                            );
+                            user.decrementNextOfferConfigPropertyNumber();
+                            configLoop.doLoop(offer, update, user);
+                        },
+                        () -> save(offer, property, update, user, value));
     }
 
     private void save(Offer offer, OfferProperty property, Update update, User user, Integer value) {

@@ -15,3 +15,7 @@ CREATE SEQUENCE IF NOT EXISTS offer_element_seq
     MINVALUE 1
     INCREMENT BY 100
     OWNED BY offer_element.id;
+
+
+--changeset belkinmike:add_offer_element_offer_id
+ALTER TABLE offer_element ADD COLUMN offer_id BIGINT NOT NULL REFERENCES offer(id);

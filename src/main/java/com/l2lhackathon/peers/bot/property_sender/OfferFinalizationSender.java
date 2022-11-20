@@ -1,6 +1,7 @@
 package com.l2lhackathon.peers.bot.property_sender;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
 import com.l2lhackathon.peers.bot.controls.BotButton;
@@ -34,10 +35,10 @@ public class OfferFinalizationSender {
     }
 
     public Message message(Update update) {
-        return update.callbackQuery().message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 
     public com.pengrad.telegrambot.model.User user(Update update) {
-        return update.callbackQuery().from();
+        return message(update).from();
     }
 }

@@ -111,6 +111,13 @@ public class User {
         return toString();
     }
 
+    public void decrementNextOfferConfigPropertyNumber() {
+        nextOfferConfigPropertyNumber--;
+        if (nextOfferConfigPropertyNumber < 0) {
+            nextOfferConfigPropertyNumber = 0;
+        }
+    }
+
     public void incrementNextOfferConfigPropertyNumber() {
         nextOfferConfigPropertyNumber++;
     }

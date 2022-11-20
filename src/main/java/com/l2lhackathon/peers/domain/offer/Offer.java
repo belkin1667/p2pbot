@@ -16,12 +16,14 @@ import com.l2lhackathon.peers.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = { "offerElements", "user", "config" })
 public class Offer {
     @Id
     @NotNull
@@ -35,7 +37,7 @@ public class Offer {
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<OfferElement> offerElements;
+    private List<OfferElement> offerElements;
 
     public void init(User user, OfferConfig selectedOfferConfig) {
         createdAt = Instant.now();

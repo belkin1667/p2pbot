@@ -17,12 +17,14 @@ import com.l2lhackathon.peers.controller.offer.dto.OfferConfigDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"properties", "offers"})
 public class OfferConfig {
 
     @Id

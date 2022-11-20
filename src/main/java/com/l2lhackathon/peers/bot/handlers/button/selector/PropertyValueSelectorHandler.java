@@ -57,17 +57,16 @@ public class PropertyValueSelectorHandler extends SelectorHandler {
 
 
     private void handleStringSelectorAwaiting(Update update, User user) {
-        var callback = type.getEffectiveCallbackFrom(update.callbackQuery().data()); //"offerId:propertyId:value"
-        var offerId = Long.valueOf(callback.split(":")[0]);
-        var propertyId = Long.valueOf(callback.split(":")[1]);
-        var value = callback.split(":")[2];
+        var callback = type.getEffectiveCallbackFrom(update.callbackQuery().data()); //"propertyId:value"
+        var propertyId = Long.valueOf(callback.split(":")[0]);
+        var value = callback.split(":")[1];
         var property = propertyRepository.findById(propertyId)
                 .orElseThrow(() -> new PeersEntityNotFoundException(OfferProperty.class, propertyId));
 
         if (!((StringSelectorConstraint) property.getConstraint()).getValues().contains(value)) {
             throw new IllegalStateException();
         }
-
+        var offerId = user.getCurrentOfferId();
         var offer = offerRepository.findById(offerId)
                 .orElseThrow(() -> new PeersEntityNotFoundException(Offer.class, offerId));
         OfferElement offerElement = new OfferElement();
