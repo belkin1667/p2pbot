@@ -14,17 +14,29 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Getter
-public class CloseEditProfileDialogButtonHandler extends BaseButtonHandler {
+public class CreateProfileButtonHandler extends BaseButtonHandler {
 
-    private static final String MESSAGE = "Ваш профиль: %s";
+    private static final String MESSAGE = "Профиль создан:\n%s";
+    private static final String MESSAGE_ALREADY_EXISTS = "Профиль уже существует";
 
-    private final BotButton button = BotButton.CLOSE_EDIT_PROFILE_DIALOG;
-    private final DialogStage dialogStageAfter = DialogStage.UNKNOWN;
+    @Getter
+    private final BotButton button = BotButton.CREATE_PROFILE;
+    private final DialogStage dialogStageAfter = DialogStage.PROFILE_CREATED;
+
     private final PeersBotResponseSender bot;
     private final UserRepository userRepository;
 
     @Override
     public void handleAuthorized(Update update, User user) {
+        bot.sendMessage(chat(update).id(), MESSAGE_ALREADY_EXISTS);
+    }
+
+    @Override
+    public void handleUnauthorized(Update update) {
+        var telegramUser = user(update);
+        User user = new User();
+        user.init(telegramUser.firstName(), telegramUser.lastName(), telegramUser.username(), telegramUser.id());
+        userRepository.save(user);
         bot.sendButtons(
                 chat(update).id(),
                 MESSAGE.formatted(user.toBotMessage()),

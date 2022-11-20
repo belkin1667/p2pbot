@@ -3,6 +3,7 @@ package com.l2lhackathon.peers.controller.user.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
+@ToString(exclude = "dialogStage")
 public class User {
 
     @Id
@@ -39,6 +41,8 @@ public class User {
     @NotNull
     @Enumerated(value = EnumType.STRING)
     private DialogStage dialogStage;
+
+    private Integer previousMessageId;
 
     @Embedded
     private Location location;

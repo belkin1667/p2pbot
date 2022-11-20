@@ -4,29 +4,53 @@ import java.util.Optional;
 
 import com.l2lhackathon.peers.bot.handlers.UpdateHandler;
 import com.pengrad.telegrambot.model.CallbackQuery;
+import com.pengrad.telegrambot.model.Chat;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.User;
 
-public abstract class BaseButtonHandler implements UpdateHandler {
+public abstract class BaseButtonHandler extends UpdateHandler {
 
     abstract BotButton getButton();
 
     @Override
+    public void handle(Update update) {
+        if (maybeButtonFromUpdate(update).orElseThrow().getWebViewEnabled()) {
+            return;
+        }
+        super.handle(update);
+    }
+
+    @Override
+    public void postProcessFinally(Update update) {
+        getBot().deleteMessage(chat(update).id(), message(update).messageId());
+    }
+
+    @Override
     public boolean canHandle(Update update) {
-        return Optional.ofNullable(update)
-                .map(Update::callbackQuery)
-                .map(CallbackQuery::data)
-                .filter(data -> getButton().getCallback().equals(data))
+        return maybeButtonFromUpdate(update)
+                .filter(byCallBack -> byCallBack.equals(getButton()) || byCallBack.getWebViewEnabled())
                 .isPresent();
     }
 
-    @Override
-    public Long chatId(Update update) {
-        return update.callbackQuery().message().chat().id();
+    private Optional<BotButton> maybeButtonFromUpdate(Update update) {
+        return Optional.ofNullable(update)
+                .map(Update::callbackQuery)
+                .map(CallbackQuery::data)
+                .flatMap(BotButton::findByCallbackData);
     }
 
     @Override
-    public User user(Update update) {
-        return update.callbackQuery().message().from();
+    public Chat chat(Update update) {
+        return message(update).chat();
+    }
+
+    @Override
+    public Message message(Update update) {
+        return update.callbackQuery().message();
+    }
+
+    @Override
+    public com.pengrad.telegrambot.model.User user(Update update) {
+        return update.callbackQuery().from();
     }
 }

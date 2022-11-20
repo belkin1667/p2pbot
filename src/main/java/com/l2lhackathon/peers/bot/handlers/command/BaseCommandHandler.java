@@ -3,11 +3,12 @@ package com.l2lhackathon.peers.bot.handlers.command;
 import java.util.Optional;
 
 import com.l2lhackathon.peers.bot.handlers.UpdateHandler;
+import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 
-public abstract class BaseCommandHandler implements UpdateHandler {
+public abstract class BaseCommandHandler extends UpdateHandler {
 
     abstract BotCommand getCommand();
 
@@ -21,12 +22,17 @@ public abstract class BaseCommandHandler implements UpdateHandler {
     }
 
     @Override
-    public Long chatId(Update update) {
-        return update.message().chat().id();
+    public Chat chat(Update update) {
+        return message(update).chat();
+    }
+
+    @Override
+    public Message message(Update update) {
+        return update.message();
     }
 
     @Override
     public User user(Update update) {
-        return update.message().from();
+        return message(update).from();
     }
 }

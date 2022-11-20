@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.l2lhackathon.peers.bot.configuration.BotProperties;
 import com.l2lhackathon.peers.bot.handlers.UpdateHandler;
 import com.l2lhackathon.peers.bot.handlers.command.FreeTextHandler;
 import com.l2lhackathon.peers.metrics.Action;
@@ -18,9 +19,11 @@ import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class PeersBotUpdateReceiver {
 
     private final BotProperties properties;
@@ -41,10 +44,8 @@ public class PeersBotUpdateReceiver {
 
     @Scheduled(fixedDelay = 20) // processed previous, started new one
     public void getAndProcessUpdates() {
-        System.out.println("Getting new updates batch..");
         List<Update> updatesBatch = getNextUpdatesBatch();
         processUpdateBatch(updatesBatch);
-        System.out.println("Updates batch processed!");
     }
 
     private List<Update> getNextUpdatesBatch() {
