@@ -6,13 +6,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+//@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserMapper {
 
-    @Mapping(target = "userBaseData", ignore = true)
-    @Mapping(target = "reviews", ignore = true)
-    @Mapping(target = "city", source = "location.city")
-    @Mapping(target = "country", source = "location.country")
+    //@Mapping(target = "userBaseData", ignore = true)
+    //@Mapping(target = "reviews", ignore = true)
+    //@Mapping(target = "city", source = "location.city")
+    //@Mapping(target = "country", source = "location.country")
     UserDto map(User user);
 
 }
