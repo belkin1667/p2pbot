@@ -39,8 +39,6 @@ public abstract class Constraint {
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
-/*    @OneToOne(cascade = {CascadeType.ALL})
-    private OfferProperty offerProperty;*/
 
     @Enumerated(value = EnumType.STRING)
     public abstract ConstraintType getType();

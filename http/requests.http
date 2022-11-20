@@ -1,3 +1,12 @@
+###
+PUT localhost:8080/offers/configuration/103
+Content-Type: application/json
+
+{
+  "value": "ARCHIVED"
+}
+
+###
 POST localhost:8080/offers/configuration
 Content-Type: application/json
 
