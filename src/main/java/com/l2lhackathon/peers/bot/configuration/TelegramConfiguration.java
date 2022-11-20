@@ -1,8 +1,6 @@
 package com.l2lhackathon.peers.bot.configuration;
 
-import com.l2lhackathon.peers.bot.BotProperties;
 import com.pengrad.telegrambot.TelegramBot;
-import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

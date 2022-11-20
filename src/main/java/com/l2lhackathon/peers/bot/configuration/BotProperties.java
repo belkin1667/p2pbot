@@ -1,4 +1,4 @@
-package com.l2lhackathon.peers.bot;
+package com.l2lhackathon.peers.bot.configuration;
 
 import lombok.Getter;
 import lombok.Setter;

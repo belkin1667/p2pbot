@@ -1,5 +1,6 @@
 package com.l2lhackathon.peers.bot.handlers.button;
 
+
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
 import com.l2lhackathon.peers.controller.user.entity.DialogStage;
 import com.l2lhackathon.peers.controller.user.entity.User;
@@ -12,15 +13,24 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Getter
-public class ChooseRoleOffererButtonHandler extends BaseButtonHandler {
+public class DeleteProfileButtonHandler extends BaseButtonHandler {
 
-    private final BotButton button = BotButton.I_AM_OFFERER;
-    private final DialogStage dialogStageAfter = DialogStage.OFFERED_CHOSEN;
+    private static final String MESSAGE = "Профиль удален!";
+
+    private final BotButton button = BotButton.DELETE_PROFILE;
+    private final DialogStage dialogStageAfter = DialogStage.UNKNOWN;
+
     private final PeersBotResponseSender bot;
     private final UserRepository userRepository;
 
     @Override
     public void handleAuthorized(Update update, User user) {
-        bot.sendMessage(chat(update).id(), "ChooseRoleOffererCommandHandler");
+        userRepository.delete(user);
+        bot.sendMessage(chat(update).id(), MESSAGE);
+    }
+
+    @Override
+    public void postProcessAuthorized(Update update, User user) {
+
     }
 }

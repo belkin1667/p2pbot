@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
 import com.l2lhackathon.peers.bot.handlers.button.BotButton;
+import com.l2lhackathon.peers.controller.user.entity.DialogStage;
 import com.l2lhackathon.peers.controller.user.entity.User;
 import com.l2lhackathon.peers.service.user.UserRepository;
 import com.pengrad.telegrambot.model.Update;
@@ -14,34 +15,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Getter
 public class ProfileCommandHandler extends BaseCommandHandler {
 
     private static final String MESSAGE = "Ваш профиль: %s";
+    private static final String CREATE_MESSAGE = "Привет! Мы пока не знакомы. Хочешь зарегистрироваться?";
 
-    @Getter
     private final BotCommand command = BotCommand.PROFILE;
-
-    private final PeersBotResponseSender bot;
+    private final DialogStage dialogStageAfter = DialogStage.UNKNOWN;
     private final UserRepository userRepository;
+    private final PeersBotResponseSender bot;
 
     @Override
-    public void handle(Update update) {
-        var telegramUser = user(update);
-        var maybeUser = userRepository.findByTelegramId(telegramUser.id());
-        User user;
-        if (maybeUser.isEmpty()) {
-            user = new User();
-            user.init(telegramUser.firstName(), telegramUser.lastName(), telegramUser.username(), telegramUser.id());
-            userRepository.save(user);
-        } else {
-            user = maybeUser.get();
-        }
-
+    public void handleAuthorized(Update update, User user) {
         bot.sendButtons(
-                chatId(update),
+                chat(update).id(),
                 MESSAGE.formatted(user.toBotMessage()),
-                List.of(BotButton.EDIT_PROFILE)
+                List.of(BotButton.EDIT_PROFILE, BotButton.OPEN_PROFILE_WEB_VIEW),
+                user.getTelegramId()
+        );
+    }
+
+    @Override
+    public void handleUnauthorized(Update update) {
+        bot.sendButtons(
+                chat(update).id(),
+                CREATE_MESSAGE,
+                List.of(BotButton.CREATE_PROFILE, BotButton.CANCEL_UNAUTHORIZED)
         );
     }
 }

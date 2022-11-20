@@ -20,17 +20,15 @@ import static com.l2lhackathon.peers.bot.handlers.button.BotButton.EDIT_PROFILE;
 @Order(10000)
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Getter
 public class FreeTextHandler extends BaseCommandHandler {
 
     private static final String MESSAGE = "Готово!";
 
-    @Getter
     private final BotCommand command = BotCommand.FREE_TEXT;
-
+    private final DialogStage dialogStageAfter = DialogStage.UNKNOWN;
     private final UserRepository userRepository;
     private final PeersBotResponseSender bot;
-    private final ProfileCommandHandler profileCommandHandler;
 
     @Override
     public boolean canHandle(Update update) {
@@ -45,16 +43,11 @@ public class FreeTextHandler extends BaseCommandHandler {
         if (update.message() == null || update.message().text() == null) {
             throw new PeersHandlerNotFoundException(update);
         }
-
-        var user = userRepository.findByTelegramId(user(update).id());
-        if (user.isPresent()) {
-            baseFlow(update, user.get());
-        } else {
-            requestRegistration(update);
-        }
+        super.handle(update);
     }
 
-    private void baseFlow(Update update, User user) {
+    @Override
+    public void handleAuthorized(Update update, User user) {
         var text = update.message().text();
         switch(user.getDialogStage()) {
             case EDIT_LAST_NAME -> user.setLastName(text);
@@ -63,13 +56,16 @@ public class FreeTextHandler extends BaseCommandHandler {
             case EDIT_CITY -> user.setCity(text);
             default -> { }
         }
+
+        if (user.getDialogStage().getDeletePrevious() && user.getPreviousMessageId() != null) {
+            bot.deleteMessage(chat(update).id(), user.getPreviousMessageId());
+            user.setPreviousMessageId(null);
+        }
+
         user.setDialogStage(DialogStage.UNKNOWN);
         userRepository.save(user);
 
-        bot.sendButtons(chatId(update), MESSAGE, List.of(EDIT_PROFILE));
+        bot.sendButtons(chat(update).id(), MESSAGE, List.of(EDIT_PROFILE));
     }
 
-    private void requestRegistration(Update update) {
-        profileCommandHandler.handle(update);
-    }
 }

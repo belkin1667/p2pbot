@@ -15,41 +15,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Getter
 public class StartCommandHandler extends BaseCommandHandler {
 
     private static final String BASE_FLOW_MESSAGE = "Выбери, что ты хочешь сделать:";
 
-    @Getter
     private final BotCommand command = BotCommand.START;
-
+    private final DialogStage dialogStageAfter = DialogStage.UNKNOWN;
     private final UserRepository userRepository;
     private final PeersBotResponseSender bot;
     private final ProfileCommandHandler profileCommandHandler;
 
     @Override
-    public void handle(Update update) {
-        var telegramId = update.message().from().id();
-        var user = userRepository.findByTelegramId(telegramId);
-        if (user.isPresent()) {
-            baseFlow(update, user.get());
-        } else {
-            requestRegistration(update);
-        }
-    }
-
-    private void baseFlow(Update update, User user) {
+    public void handleAuthorized(Update update, User user) {
         bot.sendButtons(
-                chatId(update),
+                chat(update).id(),
                 BASE_FLOW_MESSAGE,
                 List.of(BotButton.I_AM_SEARCHER, BotButton.I_AM_OFFERER)
         );
-
-        user.setDialogStage(DialogStage.UNKNOWN);
-        userRepository.save(user);
     }
 
-    private void requestRegistration(Update update) {
+    @Override
+    public void handleUnauthorized(Update update) {
         profileCommandHandler.handle(update);
     }
 }
