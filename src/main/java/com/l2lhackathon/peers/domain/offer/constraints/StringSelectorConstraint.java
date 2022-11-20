@@ -1,11 +1,14 @@
 package com.l2lhackathon.peers.domain.offer.constraints;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import com.l2lhackathon.peers.controller.offer.dto.constraints.StringSelectorConstraintDto;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,4 +32,9 @@ public class StringSelectorConstraint extends Constraint {
         return ConstraintType.SELECTOR_STRING;
     }
 
+    public void init(StringSelectorConstraintDto dto) {
+        values = new ArrayList<>(dto.getValues());
+        setCreatedAt(Instant.now());
+        setUpdatedAt(Instant.now());
+    }
 }

@@ -16,4 +16,5 @@ public enum OfferPropertyType {
 
     private final Class<?> javaClazz;
     private final Function<String, Object> parser;
+
 }

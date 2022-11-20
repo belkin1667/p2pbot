@@ -6,9 +6,9 @@ Content-Type: application/json
     "properties": [
         {
             "name": "Город",
-            "type": "STRING", // STRING, INTEGER, DATE
+            "type": "STRING",
             "constraint": {
-                "type": "SELECTOR_STRING", // SELECTOR_STRING, GREATER_OR_LESS_INTEGER
+                "type": "SELECTOR_STRING",
                 "values": [
                     "Ереван", "Тбилиси", "Стамбул"
                 ]
@@ -16,12 +16,12 @@ Content-Type: application/json
         },
         {
             "name": "Возраст",
-            "type": "INTEGER", // STRING, INTEGER, DATE
+            "type": "INTEGER",
             "constraint": {
-                "type": "GREATER_OR_LESS_INTEGER", // SELECTOR_STRING, GREATER_OR_LESS_INTEGER
+                "type": "GREATER_OR_LESS_INTEGER",
                 "values": [
                     {
-                        "key":"GREATER_OR_EQUAL", // GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, EQUAL
+                        "key":"GREATER_OR_EQUAL",
                         "value":18
                     }
                 ]

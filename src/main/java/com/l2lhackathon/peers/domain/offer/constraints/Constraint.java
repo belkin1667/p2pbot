@@ -2,6 +2,7 @@ package com.l2lhackathon.peers.domain.offer.constraints;
 
 import java.time.Instant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,10 +19,12 @@ import com.l2lhackathon.peers.domain.offer.OfferProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Data
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "property_constraint")
@@ -31,13 +34,13 @@ public abstract class Constraint {
 
     @Id
     @NotNull
-    @GeneratedValue(generator = "constraint_seq")
-    @SequenceGenerator(name = "constraint_seq", sequenceName = "constraint_seq", allocationSize = 100)
+    @GeneratedValue(generator = "property_constraint_seq")
+    @SequenceGenerator(name = "property_constraint_seq", sequenceName = "property_constraint_seq", allocationSize = 100)
     private Long id;
     private Instant createdAt;
     private Instant updatedAt;
-    @OneToOne
-    private OfferProperty offerProperty;
+/*    @OneToOne(cascade = {CascadeType.ALL})
+    private OfferProperty offerProperty;*/
 
     @Enumerated(value = EnumType.STRING)
     public abstract ConstraintType getType();

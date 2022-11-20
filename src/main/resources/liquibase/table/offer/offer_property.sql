@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS offer_property
     updated_at    TIMESTAMPTZ NOT NULL DEFAULT current_timestamp,
     type          TEXT        NOT NULL,
     name          TEXT        NOT NULL,
-    values        JSONB       NOT NULL,
     config_id     BIGINT      NOT NULL,
     constraint_id BIGINT,
     FOREIGN KEY (constraint_id) REFERENCES property_constraint (id) ON DELETE CASCADE,

@@ -39,3 +39,6 @@ out/
 
 ### Local Properties ###
 /src/main/resources/properties.d/local/application-local.properties
+
+### Local HTTP Client ###
+http/requests.http
