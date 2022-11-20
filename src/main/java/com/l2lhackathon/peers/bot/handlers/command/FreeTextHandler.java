@@ -57,7 +57,7 @@ public class FreeTextHandler extends BaseCommandHandler {
         if (update == null) {
             throw new IllegalStateException("Update is null");
         }
-        if (update.message() == null || update.message().text() == null) {
+        if (message(update) == null || message(update).text() == null) {
             throw new PeersHandlerNotFoundException(update);
         }
         super.handle(update);
@@ -85,7 +85,6 @@ public class FreeTextHandler extends BaseCommandHandler {
             }
             case INTEGER_AWAITING -> {
                 handleIntegerAwaiting(update, user, text);
-                finalizeAwaiting(update, user);
             }
             default -> { }
         }
@@ -120,9 +119,9 @@ public class FreeTextHandler extends BaseCommandHandler {
             return;
         }
 
-        var offer = offerRepository.findById(user.getCurrentOfferId())
-                .orElseThrow(() -> new PeersEntityNotFoundException(Offer.class, user.getCurrentOfferId()));
-        var property = offer.getConfig().getProperties().get(user.getNextOfferConfigPropertyNumber() - 1);
+        final Offer[] offer = {offerRepository.findById(user.getCurrentOfferId())
+                .orElseThrow(() -> new PeersEntityNotFoundException(Offer.class, user.getCurrentOfferId()))};
+        var property = offer[0].getConfig().getProperties().get(user.getNextOfferConfigPropertyNumber() - 1);
         if (property.getType() != OfferPropertyType.INTEGER) {
             throw new IllegalStateException();
         }
@@ -135,17 +134,18 @@ public class FreeTextHandler extends BaseCommandHandler {
                                     "Число должно быть %s %d".formatted(v.getKey().getReadableName(), v.getValue())
                             );
                             user.decrementNextOfferConfigPropertyNumber();
-                            configLoop.doLoop(offer, update, user);
+                            //finalizeAwaiting(update, user);
+                            configLoop.doLoop(offer[0], update, user);
                         },
-                        () -> save(offer, property, update, user, value));
-    }
-
-    private void save(Offer offer, OfferProperty property, Update update, User user, Integer value) {
-        OfferElement offerElement = new OfferElement();
-        offerElement.init(String.valueOf(value), offer, property);
-        offer.getOfferElements().add(offerElement);
-        offer = offerRepository.save(offer);
-        configLoop.doLoop(offer, update, user);
+                        () -> {
+                            OfferElement offerElement = new OfferElement();
+                            offerElement.init(String.valueOf(value), offer[0], property);
+                            offer[0].getOfferElements().add(offerElement);
+                            offer[0] = offerRepository.save(offer[0]);
+                            //user.setDialogStage(DialogStage.UNKNOWN);
+                            //finalizeAwaiting(update, user);
+                            configLoop.doLoop(offer[0], update, user);
+                        });
     }
 
 }

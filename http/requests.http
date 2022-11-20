@@ -11,22 +11,24 @@ POST localhost:8080/offers/configuration
 Content-Type: application/json
 
 {
-  "offerName": "Коливинг",
+  "offerName": "Ищу людей для коливинга",
   "properties": [
     {
-      "name": "Город",
+      "name": "Укажи город, где ищешь жилье",
       "type": "STRING",
       "constraint": {
         "type": "SELECTOR_STRING",
         "values": [
           "Ереван",
           "Тбилиси",
-          "Стамбул"
+          "Стамбул",
+          "Белград",
+          "Тиват"
         ]
       }
     },
     {
-      "name": "Возраст",
+      "name": "Укажи твой возраст",
       "type": "INTEGER",
       "constraint": {
         "type": "GREATER_OR_LESS_INTEGER",
@@ -34,7 +36,74 @@ Content-Type: application/json
           {
             "key": "GREATER_OR_EQUAL",
             "value": 18
+          },
+          {
+            "key": "LESS_OR_EQUAL",
+            "value": 40
           }
+        ]
+      }
+    },
+    {
+      "name": "Какой статус у жилья для коливинга?",
+      "type": "STRING",
+      "constraint": {
+        "type": "SELECTOR_STRING",
+        "values": [
+          "Нашел, уже живу",
+          "Нашел, жду людей",
+          "Активно ищу",
+          "Посматриваю на объявления",
+          "Не ищу"
+        ]
+      }
+    },
+    {
+      "name": "Укажи сколько людей ты уже нашел для коливинга",
+      "type": "INTEGER",
+      "constraint": {
+        "type": "GREATER_OR_LESS_INTEGER",
+        "values": [
+          {
+            "key": "GREATER_OR_EQUAL",
+            "value": 0
+          },
+          {
+            "key": "LESS_OR_EQUAL",
+            "value": 20
+          }
+        ]
+      }
+    },
+    {
+      "name": "Укажи сколько людей ты хочешь найти всего",
+      "type": "INTEGER",
+      "constraint": {
+        "type": "GREATER_OR_LESS_INTEGER",
+        "values": [
+          {
+            "key": "GREATER_OR_EQUAL",
+            "value": 1
+          },
+          {
+            "key": "LESS_OR_EQUAL",
+            "value": 20
+          }
+        ]
+      }
+    },
+    {
+      "name": "Какой ценовой диапазон с человека в месяц ты ищешь?",
+      "type": "INTEGER",
+      "constraint": {
+        "type": "SELECTOR_STRING",
+        "values": [
+          "до $200",
+          "$200-$500",
+          "$500-$800",
+          "$500-$800",
+          "$800-$1200",
+          "$1200 и более"
         ]
       }
     }

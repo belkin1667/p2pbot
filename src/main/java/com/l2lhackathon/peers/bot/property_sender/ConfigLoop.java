@@ -1,6 +1,7 @@
 package com.l2lhackathon.peers.bot.property_sender;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.l2lhackathon.peers.bot.exception.PeersHandlerNotFoundException;
 import com.l2lhackathon.peers.domain.offer.Offer;
@@ -45,6 +46,6 @@ public class ConfigLoop {
     }
 
     public Message message(Update update) {
-        return update.callbackQuery().message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 }

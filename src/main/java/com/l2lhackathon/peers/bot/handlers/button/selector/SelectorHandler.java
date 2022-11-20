@@ -1,5 +1,7 @@
 package com.l2lhackathon.peers.bot.handlers.button.selector;
 
+import java.util.Optional;
+
 import com.l2lhackathon.peers.bot.controls.SelectorType;
 import com.l2lhackathon.peers.domain.user.User;
 import com.pengrad.telegrambot.model.Chat;
@@ -16,7 +18,7 @@ public abstract class SelectorHandler {
     }
 
     public Message message(Update update) {
-        return update.callbackQuery().message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 
     public com.pengrad.telegrambot.model.User user(Update update) {

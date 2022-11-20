@@ -29,7 +29,7 @@ public abstract class BaseCommandHandler extends UpdateHandler {
 
     @Override
     public Message message(Update update) {
-        return update.message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 
     @Override

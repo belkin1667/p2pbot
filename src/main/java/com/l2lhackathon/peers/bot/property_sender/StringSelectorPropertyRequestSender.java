@@ -1,5 +1,8 @@
 package com.l2lhackathon.peers.bot.property_sender;
 
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
 import com.l2lhackathon.peers.bot.controls.Selector;
 import com.l2lhackathon.peers.bot.controls.SelectorOption;
@@ -28,14 +31,15 @@ public class StringSelectorPropertyRequestSender implements PropertyRequestSende
 
     @Override
     public void send(Update update, User user, OfferProperty property) {
-        bot.sendSelector(
+        AtomicInteger index = new AtomicInteger(0);
+        var resp = bot.sendSelector(
                 chat(update).id(),
                 property.getName(),
                 new Selector(
                         ((StringSelectorConstraint) property.getConstraint())
                                 .getValues()
                                 .stream()
-                                .map(s -> new SelectorOption(s, property.getId() + ":" + s))
+                                .map(s -> new SelectorOption(s, property.getId() + ":" + index.getAndIncrement()))
                                 .toList(),
                         SelectorType.PROPERTY_VALUE
                 )
@@ -51,7 +55,7 @@ public class StringSelectorPropertyRequestSender implements PropertyRequestSende
     }
 
     public Message message(Update update) {
-        return update.callbackQuery().message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 
     public com.pengrad.telegrambot.model.User user(Update update) {

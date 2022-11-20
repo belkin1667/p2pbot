@@ -48,7 +48,7 @@ public abstract class BaseButtonHandler extends UpdateHandler {
 
     @Override
     public Message message(Update update) {
-        return update.callbackQuery().message();
+        return Optional.ofNullable(update.message()).orElseGet(() -> update.callbackQuery().message());
     }
 
     @Override

@@ -18,7 +18,7 @@ public enum DialogStage {
     UNKNOWN(false),
 
     STRING_SELECTOR_AWAITING(false),
-    INTEGER_AWAITING(false),
+    INTEGER_AWAITING(true),
     OFFER_CONFIG_CHOSEN(false);
 
     private final Boolean deletePrevious;
