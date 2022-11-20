@@ -10,7 +10,7 @@ public enum BotCommand {
     START("/start"),
     PROFILE("/profile"),
     HELP("/help"),
-    TEST_WEB_VIEW_BUTTONS("/test_webview");
+    FREE_TEXT("");
 
     private final String command;
 }

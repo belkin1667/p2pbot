@@ -4,27 +4,28 @@
 CREATE TABLE IF NOT EXISTS users
 (
     id              BIGINT      PRIMARY KEY,
-    created_at      TIMESTAMPTZ NOT NULL,
-    updated_at      TIMESTAMPTZ NOT NULL,
-    telegram_login  TEXT        UNIQUE NOT NULL
+    created_at      TIMESTAMPTZ NOT NULL default current_timestamp,
+    updated_at      TIMESTAMPTZ NOT NULL default current_timestamp,
+    telegram_login  TEXT        UNIQUE NOT NULL,
+    telegram_id     BIGINT      UNIQUE NOT NULL,
+    first_name      TEXT        NOT NULL,
+    last_name       TEXT        NOT NULL,
+    city            TEXT,
+    country         TEXT,
+    rating          FLOAT,
+    photo_url       TEXT,
+    dialog_stage    TEXT NOT NULL DEFAULT 'UNKNOWN'
 );
 
-CREATE SEQUENCE users_seq
+CREATE SEQUENCE IF NOT EXISTS users_seq
     MINVALUE 1
     INCREMENT BY 100
     OWNED BY users.id;
 
-CREATE INDEX idx_telegram_login ON users (telegram_login);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_telegram_login ON users (telegram_login);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_telegram_id ON users (telegram_id);
 
 --changeset targimec:change_set_name
-ALTER TABLE users
-    ADD COLUMN IF NOT EXISTS   first_name  TEXT,
-    ADD COLUMN IF NOT EXISTS   last_name   TEXT,
-    ADD COLUMN IF NOT EXISTS   city        TEXT,
-    ADD COLUMN IF NOT EXISTS   country     TEXT,
-    ADD COLUMN IF NOT EXISTS   rating      FLOAT,
-    ADD COLUMN IF NOT EXISTS   photo_url   TEXT;
-
 CREATE TABLE IF NOT EXISTS review
 (
     id              BIGINT  PRIMARY KEY,
@@ -35,9 +36,10 @@ CREATE TABLE IF NOT EXISTS review
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
---changeset belkinmike:add_telegram_id
-ALTER TABLE users
-    ADD COLUMN telegram_id BIGINT,
-    ADD COLUMN stage TEXT;
+CREATE SEQUENCE IF NOT EXISTS review_seq
+    MINVALUE 1
+    INCREMENT BY 100
+    OWNED BY review.id;
 
-CREATE INDEX idx_telegram_id ON users (telegram_id);
+CREATE INDEX IF NOT EXISTS idx_review_user_id ON review (user_id);
+CREATE INDEX IF NOT EXISTS idx_review_author_id ON review (author_id);

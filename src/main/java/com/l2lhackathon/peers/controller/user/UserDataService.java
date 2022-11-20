@@ -7,6 +7,7 @@ import com.l2lhackathon.peers.controller.user.entity.Review;
 import com.l2lhackathon.peers.controller.user.entity.User;
 import com.l2lhackathon.peers.controller.user.repository.ReviewRepository;
 import com.l2lhackathon.peers.controller.user.repository.UsersRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserDataService {
 
     private final UsersRepository usersRepository;
     private final ReviewRepository reviewRepository;
-
-    public UserDataService(UsersRepository usersRepository, ReviewRepository reviewRepository) {
-        this.usersRepository = usersRepository;
-        this.reviewRepository = reviewRepository;
-    }
 
     UserDto getUser(Long id) {
         Optional<User> user = usersRepository.findById(id);

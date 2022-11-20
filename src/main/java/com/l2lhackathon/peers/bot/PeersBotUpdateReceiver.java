@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import com.l2lhackathon.peers.bot.exception.PeersHandlerNotFoundException;
 import com.l2lhackathon.peers.bot.handlers.UpdateHandler;
+import com.l2lhackathon.peers.bot.handlers.command.FreeTextHandler;
 import com.l2lhackathon.peers.metrics.Action;
 import com.l2lhackathon.peers.metrics.ActionLog;
 import com.l2lhackathon.peers.metrics.ActionType;
@@ -26,6 +26,7 @@ public class PeersBotUpdateReceiver {
     private final BotProperties properties;
     private final ActionLog actionLog;
     private final List<UpdateHandler> handlers;
+    private final FreeTextHandler freeTextHandler;
 
     private final TelegramBot bot;
     private GetUpdates getUpdates;
@@ -66,6 +67,6 @@ public class PeersBotUpdateReceiver {
 
         handlers.stream()
                 .filter(h -> h.canHandle(update)).findAny()
-                .ifPresentOrElse(h -> h.handle(update), () -> { throw new PeersHandlerNotFoundException(update); });
+                .ifPresentOrElse(h -> h.handle(update), () -> freeTextHandler.handle(update));
     }
 }
