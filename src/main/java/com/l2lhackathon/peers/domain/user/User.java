@@ -1,5 +1,6 @@
-package com.l2lhackathon.peers.controller.user.entity;
+package com.l2lhackathon.peers.domain.user;
 
+import com.l2lhackathon.peers.domain.review.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

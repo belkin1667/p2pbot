@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Delegate;
+import org.springframework.data.domain.Page;
 
 @Data
 @Builder
@@ -21,4 +22,5 @@ public class UserDto {
     private String photoUrl;
     private BigDecimal rating; //5.0
     private List<ReviewDto> reviews;
+    private Page<ReviewDto> reviewsPage;
 }

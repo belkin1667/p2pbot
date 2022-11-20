@@ -5,15 +5,14 @@ import java.util.List;
 
 import com.l2lhackathon.peers.bot.PeersBotResponseSender;
 import com.l2lhackathon.peers.bot.exception.PeersHandlerNotFoundException;
-import com.l2lhackathon.peers.controller.user.entity.DialogStage;
-import com.l2lhackathon.peers.controller.user.entity.User;
+import com.l2lhackathon.peers.domain.user.DialogStage;
+import com.l2lhackathon.peers.domain.user.User;
 import com.l2lhackathon.peers.service.user.UserRepository;
 import com.pengrad.telegrambot.model.Update;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.l2lhackathon.peers.bot.handlers.button.BotButton.EDIT_PROFILE;
 

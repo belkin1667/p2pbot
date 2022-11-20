@@ -1,4 +1,4 @@
-package com.l2lhackathon.peers.controller.user.entity;
+package com.l2lhackathon.peers.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
