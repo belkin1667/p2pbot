@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring",
         uses = {
-            ReviewMapper.class
+                ReviewMapper.class
         },
         unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserMapper {

@@ -7,6 +7,7 @@ import lombok.experimental.Delegate;
 @Value
 @Builder
 public class UserWith<T> {
-    @Delegate User user;
+    @Delegate
+    User user;
     T data;
 }

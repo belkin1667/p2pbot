@@ -1,0 +1,31 @@
+POST localhost:8080/offers/configuration
+Content-Type: application/json
+
+{
+    "offerName": "Коливинг",
+    "properties": [
+        {
+            "name": "Город",
+            "type": "STRING", // STRING, INTEGER, DATE
+            "constraint": {
+                "type": "SELECTOR_STRING", // SELECTOR_STRING, GREATER_OR_LESS_INTEGER
+                "values": [
+                    "Ереван", "Тбилиси", "Стамбул"
+                ]
+            }
+        },
+        {
+            "name": "Возраст",
+            "type": "INTEGER", // STRING, INTEGER, DATE
+            "constraint": {
+                "type": "GREATER_OR_LESS_INTEGER", // SELECTOR_STRING, GREATER_OR_LESS_INTEGER
+                "values": [
+                    {
+                        "key":"GREATER_OR_EQUAL", // GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, EQUAL
+                        "value":18
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -48,12 +48,13 @@ public class FreeTextHandler extends BaseCommandHandler {
     @Override
     public void handleAuthorized(Update update, User user) {
         var text = update.message().text();
-        switch(user.getDialogStage()) {
+        switch (user.getDialogStage()) {
             case EDIT_LAST_NAME -> user.setLastName(text);
             case EDIT_FIRST_NAME -> user.setFirstName(text);
             case EDIT_COUNTRY -> user.setCountry(text);
             case EDIT_CITY -> user.setCity(text);
-            default -> { }
+            default -> {
+            }
         }
 
         if (user.getDialogStage().getDeletePrevious() && user.getPreviousMessageId() != null) {

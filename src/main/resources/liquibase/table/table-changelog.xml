@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
     <include file="users/users.sql" relativeToChangelogFile="true"/>
     <include file="review/review.sql" relativeToChangelogFile="true"/>
+
+    <include file="offer/constraint.sql" relativeToChangelogFile="true"/>
+    <include file="offer/offer_config.sql" relativeToChangelogFile="true"/>
+    <include file="offer/offer_property.sql" relativeToChangelogFile="true"/>
+    <include file="offer/offer_element.sql" relativeToChangelogFile="true"/>
+    <include file="offer/offer.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

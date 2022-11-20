@@ -28,16 +28,16 @@ public class EditProfileButtonHandler extends BaseButtonHandler {
     @Override
     public void handleAuthorized(Update update, User user) {
         bot.sendButtons(
-            chat(update).id(),
-            MESSAGE,
-            List.of(
-                BotButton.EDIT_FIRST_NAME,
-                BotButton.EDIT_LAST_NAME,
-                BotButton.EDIT_CITY,
-                BotButton.EDIT_COUNTRY,
-                BotButton.DELETE_PROFILE,
-                BotButton.CLOSE_EDIT_PROFILE_DIALOG
-            )
+                chat(update).id(),
+                MESSAGE,
+                List.of(
+                        BotButton.EDIT_FIRST_NAME,
+                        BotButton.EDIT_LAST_NAME,
+                        BotButton.EDIT_CITY,
+                        BotButton.EDIT_COUNTRY,
+                        BotButton.DELETE_PROFILE,
+                        BotButton.CLOSE_EDIT_PROFILE_DIALOG
+                )
         );
     }
 }

@@ -2,7 +2,6 @@ package com.l2lhackathon.peers.configuration;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 

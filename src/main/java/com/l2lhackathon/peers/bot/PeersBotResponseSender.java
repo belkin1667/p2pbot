@@ -2,15 +2,12 @@ package com.l2lhackathon.peers.bot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 import com.l2lhackathon.peers.bot.configuration.BotWebViewProperties;
 import com.l2lhackathon.peers.bot.handlers.button.BotButton;
 import com.l2lhackathon.peers.metrics.ActionLog;
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.WebAppData;
 import com.pengrad.telegrambot.model.WebAppInfo;
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
@@ -67,9 +64,9 @@ public class PeersBotResponseSender {
                 });
 
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
-            inlineKeyboardButtons.stream()
-                    .map(list -> list.toArray(InlineKeyboardButton[]::new))
-                    .toArray(InlineKeyboardButton[][]::new)
+                inlineKeyboardButtons.stream()
+                        .map(list -> list.toArray(InlineKeyboardButton[]::new))
+                        .toArray(InlineKeyboardButton[][]::new)
         );
 
         return bot.execute(new SendMessage(chatId, text).parseMode(ParseMode.Markdown).replyMarkup(inlineKeyboard));
@@ -81,8 +78,8 @@ public class PeersBotResponseSender {
 
     private InlineKeyboardButton toInlineKeyboardButton(BotButton button, String id) {
         if (button.getWebViewEnabled()) {
-           WebAppInfo url = new WebAppInfo(webViewProperties.getUserByIdPath(id));
-           return new InlineKeyboardButton(button.getText())
+            WebAppInfo url = new WebAppInfo(webViewProperties.getUserByIdPath(id));
+            return new InlineKeyboardButton(button.getText())
                     .webApp(url);
         }
         return new InlineKeyboardButton(button.getText())

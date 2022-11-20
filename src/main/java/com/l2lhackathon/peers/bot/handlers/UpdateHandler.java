@@ -12,7 +12,8 @@ import org.springframework.lang.Nullable;
 
 public abstract class UpdateHandler {
 
-    private static final String UNKNOWN_USER_MESSAGE = "Я тебя не знаю! Используй команду /profile, чтобы создать профиль!";
+    private static final String UNKNOWN_USER_MESSAGE = "Я тебя не знаю! Используй команду /profile, чтобы создать " +
+            "профиль!";
 
     public abstract UserRepository getUserRepository();
 

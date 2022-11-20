@@ -16,7 +16,8 @@ import org.springframework.data.domain.Page;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    @Delegate private UserBaseDataDto userBaseData;
+    @Delegate
+    private UserBaseDataDto userBaseData;
     private String city;
     private String country;
     private String photoUrl;

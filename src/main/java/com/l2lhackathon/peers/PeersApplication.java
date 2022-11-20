@@ -8,9 +8,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan("com.l2lhackathon.peers")
 public class PeersApplication {
 
-	public static void main(String[] args) {
-		System.setSecurityManager(null);
-		SpringApplication.run(PeersApplication.class, args);
-	}
+    public static void main(String[] args) {
+        System.setSecurityManager(null);
+        SpringApplication.run(PeersApplication.class, args);
+    }
 
 }

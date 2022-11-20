@@ -1,7 +1,5 @@
 package com.l2lhackathon.peers;
 
-import java.time.Clock;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.l2lhackathon.peers.configuration.CleanupDataBaseAfterEachTestExtension;

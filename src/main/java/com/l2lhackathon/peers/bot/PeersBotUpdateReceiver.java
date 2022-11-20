@@ -37,9 +37,9 @@ public class PeersBotUpdateReceiver {
     @PostConstruct
     void setUp() {
         getUpdates = new GetUpdates()
-                            .limit(properties.getLimit())
-                            .offset(properties.getOffset())
-                            .timeout(properties.getTimeout());
+                .limit(properties.getLimit())
+                .offset(properties.getOffset())
+                .timeout(properties.getTimeout());
     }
 
     @Scheduled(fixedDelay = 20) // processed previous, started new one

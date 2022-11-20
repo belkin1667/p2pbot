@@ -3,12 +3,12 @@
 --changeset targimec:change_set_name
 CREATE TABLE IF NOT EXISTS review
 (
-    id              BIGINT  PRIMARY KEY,
-    user_id         BIGINT  NOT NULL,
-    text            TEXT    NOT NULL,
-    author_id       BIGINT  NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+    id        BIGINT PRIMARY KEY,
+    user_id   BIGINT NOT NULL,
+    text      TEXT   NOT NULL,
+    author_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE SEQUENCE IF NOT EXISTS review_seq
